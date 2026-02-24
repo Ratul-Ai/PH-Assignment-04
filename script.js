@@ -14,7 +14,7 @@ let jobs = [
     id: 2,
     company: "WebFlow Agency",
     position: "Web Designer & Developer",
-    location: "Los Angeles, CA",
+    location: "Dhaka",
     type: "Part-time",
     salary: "$80,000 - $120,000",
     description:
@@ -25,7 +25,7 @@ let jobs = [
     id: 3,
     company: "DataViz Solutions",
     position: "Data Visualization Specialist",
-    location: "Boston, MA",
+    location: "Rajshahi",
     type: "Full-time",
     salary: "$125,000 - $165,000",
     description:
@@ -36,7 +36,7 @@ let jobs = [
     id: 4,
     company: "CloudSync Technologies",
     position: "Backend Engineer",
-    location: "Austin, TX",
+    location: "Austin",
     type: "Full-time",
     salary: "$140,000 - $185,000",
     description:
@@ -47,7 +47,7 @@ let jobs = [
     id: 5,
     company: "GreenTech Innovations",
     position: "Full Stack Developer",
-    location: "Seattle, WA",
+    location: "Sydney",
     type: "Full-time",
     salary: "$120,000 - $160,000",
     description:
@@ -58,7 +58,7 @@ let jobs = [
     id: 6,
     company: "FinanceFlow",
     position: "Frontend Developer",
-    location: "New York, NY",
+    location: "New York",
     type: "Hybrid",
     salary: "$110,000 - $150,000",
     description:
@@ -69,7 +69,7 @@ let jobs = [
     id: 7,
     company: "HealthBridge AI",
     position: "Machine Learning Engineer",
-    location: "San Francisco, CA",
+    location: "Dhaka",
     type: "Full-time",
     salary: "$160,000 - $210,000",
     description:
@@ -89,7 +89,6 @@ let jobs = [
   },
 ];
 
-
 let activeTab = "all";
 
 const jobsList = document.getElementById("jobs-list");
@@ -98,17 +97,15 @@ const statTotal = document.getElementById("stat-total");
 const statInterview = document.getElementById("stat-interview");
 const statRejected = document.getElementById("stat-rejected");
 
-
 function badgeHTML(status) {
   if (status === "interview") {
-    return `<span class="badge badge-sm font-semibold uppercase tracking-wide bg-green-100 text-green-700 border-0 py-3 px-3">Interview</span>`;
+    return `<span class="badge badge-sm font-semibold uppercase tracking-wide bg-green-200 text-green-800 border-0 py-3 px-3">Interview</span>`;
   }
   if (status === "rejected") {
-    return `<span class="badge badge-sm font-semibold uppercase tracking-wide bg-red-100 text-red-700 border-0 py-3 px-3">Rejected</span>`;
+    return `<span class="badge badge-sm font-semibold uppercase tracking-wide bg-red-200 text-red-800 border-0 py-3 px-3">Rejected</span>`;
   }
-  return `<span class="badge badge-sm font-semibold uppercase tracking-wide bg-slate-100 text-slate-500 border-0 py-3 px-3">Not Applied</span>`;
+  return `<span class="badge badge-sm font-semibold uppercase tracking-wide bg-slate-200 text-slate-600 border-0 py-3 px-3">Not Applied</span>`;
 }
-
 
 /// Render job cards
 
@@ -163,10 +160,7 @@ function renderCard(job) {
   </div>`;
 }
 
-
-
 /// no jobs display section
-
 
 function emptyState() {
   return `
@@ -178,3 +172,94 @@ function emptyState() {
     </div>
   </div>`;
 }
+
+function render() {
+  let filtered;
+
+  if (activeTab === "all") {
+    filtered = jobs;
+  } else {
+    filtered = jobs.filter(function (job) {
+      return job.status === activeTab;
+    });
+  }
+
+  const count = filtered.length;
+  jobsCountEl.textContent = count + " job" + (count !== 1 ? "s" : "");
+
+  statTotal.textContent = jobs.length;
+
+  statInterview.textContent = jobs.filter(function (job) {
+    return job.status === "interview";
+  }).length;
+
+  statRejected.textContent = jobs.filter(function (job) {
+    return job.status === "rejected";
+  }).length;
+
+  if (filtered.length > 0) {
+    jobsList.innerHTML = filtered.map(renderCard).join("");
+  } else {
+    jobsList.innerHTML = emptyState();
+  }
+}
+
+jobsList.addEventListener("click", function (e) {
+  const btn = e.target.closest("[data-action]");
+
+  if (!btn) return;
+
+  const action = btn.dataset.action;
+  const id = parseInt(btn.dataset.id);
+
+  const job = jobs.find(function (j) {
+    return j.id === id;
+  });
+
+  if (!job) return;
+
+  // delete jobs
+  if (action === "delete") {
+    jobs = jobs.filter(function (j) {
+      return j.id !== id;
+    });
+  }
+  // Toggle behavior
+  else if (action === "interview") {
+    if (job.status === "interview") {
+      job.status = "not-applied";
+    } else {
+      job.status = "interview";
+    }
+  } else if (action === "rejected") {
+    if (job.status === "rejected") {
+      job.status = "not-applied";
+    } else {
+      job.status = "rejected";
+    }
+  }
+
+  render();
+});
+
+/// Tab switching
+
+document.getElementById("tab-bar").addEventListener("click", function (e) {
+  const btn = e.target.closest("[data-tab]");
+
+  if (!btn) return;
+
+  document.querySelectorAll("[data-tab]").forEach(function (tabBtn) {
+    tabBtn.classList.remove("tab-active");
+    tabBtn.classList.add("bg-white", "text-slate-500");
+  });
+
+  btn.classList.add("tab-active");
+  btn.classList.remove("bg-white", "text-slate-500");
+
+  activeTab = btn.dataset.tab;
+
+  render();
+});
+
+render();
