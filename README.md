@@ -1,33 +1,67 @@
-# Question Answer-
+<h1 align="center">📋 Job Application Tracker</h1>
 
-## 1. What is the difference between getElementById, getElementsByClassName, and querySelector / querySelectorAll?
+<p align="center">
+A simple job tracking app to manage job applications — mark interviews, track rejections, and stay on top of your job search.
+</p>
 
-**=>These are all DOM selectors.**
-**getElementById() selects an element by its id name, since id is unique, it returns a single element . If it doesn’t find anything, it returns null.**
+<p align="center">
+<a href="https://ratul-ai.github.io/PH-Assignment-04/">🔗 Live Demo</a>
+</p>
 
-**getElementsByClassName() selects elements by class names. It returns an html collection(like an array but not array). And it’s live, if the DOM changes, the collection updates automatically.**
+<p align="center">
 
-**querySelector() selects elements using css selector. It returns the first matching element. If nothing matches, it returns null.**
+![HTML](https://img.shields.io/badge/HTML-5-orange?style=for-the-badge)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow?style=for-the-badge)
+![DaisyUI](https://img.shields.io/badge/DaisyUI-v5-purple?style=for-the-badge)
 
-**querySelectorAll() also uses css selector , but it returns all matching element. It returns a node list, which is static (collection doesn’t update automatically.)**
+</p>
+
+---
 
 
-## 2. How do you create and insert a new element into the DOM?
+## ✨ Features
 
-**=>To create and insert a new element into the DOM, first need to create the element using document.createElement(). Then  add content or class and then insert it using append() or appendChild().**
+- Track jobs with company, position, location, type, and salary  
+- Mark status: Not Applied / Interview / Rejected (**toggle on click**)  
+- Delete jobs from the list  
+- Stats dashboard with counts of total, interviews, and rejections  
+- Filter jobs by status (All / Interview / Rejected)  
+- Fully responsive layout  
 
-## 3. What is Event Bubbling? And how does it work?
+---
 
-**=>Event Bubbling means when an event happens on a child element and it doesn’t stop there and  goes upward to its parent, then grandparent, up to document level.**
-**so if  a button click inside a div, first the button event runs, then the div event runs then it  runs event upward through its ancestors. The event running upwards like a bubble in water that’s why it’s called event bubbling.**
+## 🖼 Preview
 
-## 4. What is Event Delegation in JavaScript? Why is it useful?
+#### Dashboard 
+ <img src="./assets/dashboard.png" width="400"> 
+ 
+---
 
-**=>Event delegation means instead of adding event listener to multiple child elements, adding one listener to their parent and handle the event from there using event.target.**
-**It is useful because it is cleaner, improves performance and  works dynamically( the parent automatically  handle if new element added )**
+## 📚 What I Learned & How I Applied It
 
-## 5. What is the difference between preventDefault() and stopPropagation() methods?
+- **DOM manipulation** — Job cards, badges, stats, and empty states are dynamically generated at runtime using `innerHTML`. All user actions (marking status, deleting, switching tabs) trigger a full `render()` to update the UI from the `jobs` array.  
+- **Event delegation** — Instead of adding listeners to each button, a single listener on the parent handles clicks using `e.target.closest("[data-action]")`, keeping the code clean even after re-rendering cards.  
+- **Array methods** — `filter` removes deleted jobs or applies tab filters, `find` locates jobs by id, and `map` converts the jobs array into HTML strings for rendering.  
+ 
 
-**=>preventDefault() stops the browser’s default action or behavior. For example, stopping a form from submitting and refreshing the page when a user clicks a submit button, preventing a checkbox or radio button from toggling its checked state .**
+---
 
-**stopPropagation() stops the event from bubbling up to parent elements.for example, If a button  is inside a div and both have click event listeners, clicking the button would normally trigger both listeners due to event bubbling. so calling event.stopPropagation() on the button's event handler ensures only the button's handler runs and the div's handler is not executed.**
+## ⚙️ Challenges I ran into
+
+- **Buttons not responding after re-render** — Adding click listeners inside `renderCard()` caused listeners to be lost after every render. Fixed by **event delegation**, with one listener on the parent container that always remains in the DOM.  
+
+---
+
+## 🛠 Built With
+
+HTML · Tailwind CSS v4 · DaisyUI v5 · Vanilla JavaScript
+
+---
+
+## 👨‍💻 Author
+
+**Ratul** - Currently learning web development and building small projects to practice.  
+ 
+
+[GitHub](https://github.com/Ratul-Ai) | [Linkedin](https://www.linkedin.com/in/md-ratul242/)
